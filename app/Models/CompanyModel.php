@@ -10,7 +10,16 @@ class CompanyModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'name', 'email', 'phone', 'password', 'is_approved', 'created_at'
+        'name',
+        'description',
+        'industry',
+        'website',
+        'created_at',
+         'email', 
+         'phone', 
+         'password', 
+         'is_approved',
+          'created_at'
     ];
 
     protected $useTimestamps = true;

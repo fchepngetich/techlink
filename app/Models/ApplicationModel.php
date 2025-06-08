@@ -10,7 +10,7 @@ class ApplicationModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'student_id', 'opportunity_id', 'status', 'applied_at'
+        'student_id', 'opportunity_id', 'status', 'applied_at','updated_at'
     ];
 
     protected $useTimestamps = true;

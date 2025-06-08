@@ -46,4 +46,6 @@ final class HealthTest extends CIUnitTestCase
             'baseURL "' . $reader->baseURL . '" in app/Config/App.php is not valid URL',
         );
     }
+
+    //unit testing for the health of the application
 }

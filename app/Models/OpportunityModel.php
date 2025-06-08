@@ -9,10 +9,19 @@ class OpportunityModel extends Model
     protected $table = 'opportunities';
     protected $primaryKey = 'id';
 
-    protected $allowedFields = [
-        'company_id', 'title', 'description', 'is_active', 'created_at'
-    ];
+    protected $allowedFields = ['company_id', 'title', 'type', 'description', 'location', 'deadline'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
+
+    public function findByUUID(string $uuid)
+{
+    return $this->where('uuid', $uuid)->first();
+}
+
+public function getOpportunityTitle($id)
+{
+    return $this->where('id', $id)->select('title')->first()['title'] ?? 'Unknown';
+}
+
 }

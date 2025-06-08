@@ -10,6 +10,9 @@ class TestModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'company_id', 'title', 'description', 'slug'
-    ];
+    'company_id', 'student_id', 'title', 'description', 'slug', 'status', 'test_date'
+];
+
+
+
 }
