@@ -39,9 +39,10 @@
                                     <strong>Scheduled:</strong> <?= date('F j, Y', strtotime($test['scheduled'])) ?>
                                 </p>
 
-                                <a href="#" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-play me-1"></i> Take Test
-                                </a>
+                                <a href="<?= base_url('student/tests/take/' . $test['uuid']) ?>" class="btn btn-primary btn-sm">
+    <i class="fas fa-play me-1"></i> Take Test
+</a>
+
 
                             <?php elseif ($test['status'] === 'upcoming'): ?>
                                 <span class="badge bg-info mb-2">Upcoming</span>

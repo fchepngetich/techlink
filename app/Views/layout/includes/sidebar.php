@@ -14,7 +14,7 @@
       <a class="nav-link" href="<?= base_url('student/opportunities') ?>">
         <div class="d-flex align-items-center">
           <i class="fas fa-building menu-icon me-2"></i>
-          <span class="menu-title">Companies</span>
+          <span class="menu-title">Opportunities</span>
         </div>
       </a>
     </li>

@@ -328,45 +328,49 @@ class Home extends BaseController
     }
 
     public function listTests()
-    {
-        $studentId = session()->get('student_id');
+{
+    $studentId = session()->get('student_id');
 
-        // (In production: Pull from DB, joined with test + company + opportunity info)
+    $tests = [
+        [
+            'title' => 'Design Thinking Assessment',
+            'company' => 'Innova Solutions',
+            'role' => 'UI/UX Design Mentorship',
+            'status' => 'completed',
+            'scheduled' => '2025-06-08',
+            'score' => 92,
+        ],
+        [
+            'title' => 'HTML/CSS/JS Quiz',
+            'company' => 'TechHive Ltd.',
+            'role' => 'Frontend Developer Intern',
+            'status' => 'pending',
+            'scheduled' => '2025-08-15',
+        ],
+        [
+            'title' => 'PHP & SQL Assessment',
+            'company' => 'TechHive Ltd.',
+            'role' => 'Backend Developer Trainee',
+            'status' => 'upcoming',
+            'scheduled' => '2025-09-01',
+        ],
+        [
+            'title' => 'Linux & Cloud Basics',
+            'company' => 'Innova Solutions',
+            'role' => 'Junior DevOps Engineer',
+            'status' => 'unassigned',
+            'scheduled' => null,
+        ],
+    ];
 
-        $tests = [
-            [
-                'title' => 'Design Thinking Assessment',
-                'company' => 'Innova Solutions',
-                'role' => 'UI/UX Design Mentorship',
-                'status' => 'completed',
-                'scheduled' => '2025-07-10',
-                'score' => 92,
-            ],
-            [
-                'title' => 'HTML/CSS/JS Quiz',
-                'company' => 'TechHive Ltd.',
-                'role' => 'Frontend Developer Intern',
-                'status' => 'pending',
-                'scheduled' => '2025-08-15',
-            ],
-            [
-                'title' => 'PHP & SQL Assessment',
-                'company' => 'TechHive Ltd.',
-                'role' => 'Backend Developer Trainee',
-                'status' => 'upcoming',
-                'scheduled' => '2025-09-01',
-            ],
-            [
-                'title' => 'Linux & Cloud Basics',
-                'company' => 'Innova Solutions',
-                'role' => 'Junior DevOps Engineer',
-                'status' => 'unassigned',
-                'scheduled' => null,
-            ],
-        ];
-
-        return view('pages/student/test', ['tests' => $tests]);
+    // Add UUID to each test
+    foreach ($tests as &$test) {
+        $test['uuid'] = uniqid('test_', true); // unique ID like test_665f5c28db3398.87593909
     }
+
+    return view('pages/student/test', ['tests' => $tests]);
+}
+
 
     public function notifications()
     {

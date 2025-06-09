@@ -37,6 +37,10 @@ $routes->group('',['filter' => 'cors'], function($routes) {
 
     $routes->get('student/notifications', 'Home::notifications');
 
+
+    $routes->get('student/tests/take/(:segment)', 'TestController::takeTest/$1');
+    $routes->post('student/tests/submit', 'TestController::submitTest');
+
 });
 
 $routes->group('api/student', ['filter' => 'auth'], function($routes) {
