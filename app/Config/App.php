@@ -16,8 +16,9 @@ class App extends BaseConfig
      *
      * E.g., http://example.com/
      */
-    public string $baseURL = 'http://localhost:8080/';
-
+    // public string $baseURL = getenv('baseURL');//'http://localhost:8080/';
+    public string $baseURL = 'https://projectechlink-g0a5enf8gjccbmb8.southafricanorth-01.azurewebsites.net/';//'http://localhost:8080/';
+ 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
      * If you want to accept multiple Hostnames, set this.
