@@ -3,15 +3,63 @@
     <?= $this->section('content') ?>
 
 
-    <h3>Test Page</h3>
 
-    <p>This is a test page to verify the layout and content rendering.</p>
-    <p>Ensure that the layout is applied correctly and all sections are displayed as expected.</p>
-    <p>Feel free to modify this content for further testing.</p>
-    <p>Current date and time: <?= date('Y-m-d H:i:s') ?></p>
+<div class="container mt-4">
+    <h2 class="mb-3">Aptitude Test Results</h2>
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary">Test Results</button>
+        <button class="btn btn-success">Create Test</button>
+    </div>
 
-    <p>Session User ID: <?= session()->get('user_id') ?></p>
-    <p>Session User Name: <?= session()->get('user_name') ?></p>
+    <table class="table table-striped table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Student</th>
+                <th>Test Name</th>
+                <th>Score</th>
+                <th>Completed Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Alice Wanjiku</td>
+                <td>Technical Assessment</td>
+                <td>92%</td>
+                <td>2024-06-18</td>
+                <td><span class="badge bg-success">Completed</span></td>
+                <td>
+                    <button class="btn btn-info btn-sm">View Details</button>
+                    <button class="btn btn-warning btn-sm">Take Action</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Brian Otieno</td>
+                <td>Aptitude Test</td>
+                <td>88%</td>
+                <td>2024-06-17</td>
+                <td><span class="badge bg-success">Completed</span></td>
+                <td>
+                    <button class="btn btn-info btn-sm">View Details</button>
+                    <button class="btn btn-warning btn-sm">Take Action</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Catherine Mwangi</td>
+                <td>Programming Challenge</td>
+                <td>95%</td>
+                <td>2024-06-16</td>
+                <td><span class="badge bg-success">Completed</span></td>
+                <td>
+                    <button class="btn btn-info btn-sm">View Details</button>
+                    <button class="btn btn-warning btn-sm">Take Action</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 
 
 
