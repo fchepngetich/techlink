@@ -8,7 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 // $routes->get('/', to: 'Home::index');
 $routes->get('/', 'Home::index', ['filter' => 'authstudent']);
 
-$routes->group('',['filter' => 'cors'], function($routes) {
+$routes->group('', function($routes) {
     // $routes->post('auth/student/register', 'StudentController::register');
     $routes->get('auth/login', 'AuthController::login');
     $routes->post('auth/login/submit', 'AuthController::loginSubmit');
@@ -19,6 +19,14 @@ $routes->group('',['filter' => 'cors'], function($routes) {
 
     $routes->get('auth/verify', 'AuthController::showVerificationForm');
     $routes->post('auth/verify', 'AuthController::verifyCode');
+    $routes->get('auth/verify-email', 'AuthController::verifyEmail');
+    $routes->get('resend-verification', 'AuthController::resendVerification');
+
+    $routes->get('auth/resend-code', 'AuthController::resendCode');
+    $routes->post('auth/verify-code', 'AuthController::verifyCode');
+
+
+
 
     $routes->post('student/update-profile', 'Home::updateProfile');
     $routes->post('student/upload-document', 'Home::uploadDocument');
@@ -40,6 +48,20 @@ $routes->group('',['filter' => 'cors'], function($routes) {
 
     $routes->get('student/tests/take/(:segment)', 'TestController::takeTest/$1');
     $routes->post('student/tests/submit', 'TestController::submitTest');
+
+});
+
+$routes->group('company', ['filter' => 'authcompany'], function($routes) {
+    $routes->get('/', 'CompanyController::index');
+    $routes->get('post-opportunity', 'CompanyController::postOpportunityForm');
+    $routes->post('post-opportunity', 'CompanyController::submitOpportunity');
+    $routes->get('applications', 'CompanyController::viewApplications');
+    $routes->get('tests', 'CompanyController::viewTests');
+    $routes->get('messages', 'CompanyController::messages');
+    $routes->get('opportunity/edit/(:any)', 'CompanyController::editOpportunity/$1');
+    $routes->post('opportunity/update/(:any)', 'CompanyController::updateOpportunity/$1');
+    $routes->get('opportunities', 'CompanyController::listOpportunities');
+
 
 });
 

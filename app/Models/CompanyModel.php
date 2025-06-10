@@ -19,7 +19,8 @@ class CompanyModel extends Model
          'phone', 
          'password', 
          'is_approved',
-          'created_at'
+          'created_at',
+          'role'
     ];
 
     protected $useTimestamps = true;

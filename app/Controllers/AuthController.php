@@ -16,14 +16,10 @@ class AuthController extends ResourceController
     protected $modelName = StudentModel::class;
     protected $format = 'json';
 
-
 public function showRegisterForm()
 {
     return view('pages/auth/register');
 }
-
-
-
 public function register()
 {
     helper(['form', 'url']);
@@ -117,35 +113,181 @@ public function login()
     }
 
     public function loginSubmit()
-    {
-        $session = session();
-        $email = $this->request->getPost('email');
-        $password = $this->request->getPost('password');
+{
+    $session = session();
+    $email = $this->request->getPost('email');
+    $password = $this->request->getPost('password');
 
-        $userModel = new StudentModel();
-        $user = $userModel->where('email', $email)->first();
+    log_message('info', "Login attempt for email: {$email}");
 
-        if ($user && password_verify($password, $user['password'])) {
+    // Try student first
+    $studentModel = new StudentModel();
+    $student = $studentModel->where('email', $email)->first();
+
+    if ($student) {
+        log_message('debug', "Student record found for: {$email}");
+
+        if (password_verify($password, $student['password'])) {
+            log_message('info', "Student login successful: {$email}");
+
             $session->set([
-                'student_id' => $user['id'],
-                'user_email' => $user['email'],
-                'name' => $user['name'],
-                'isLoggedIn' => true
+                //'user_id'     => $student['id'],
+                'student_id'  => $student['id'], 
+                'name'        => $student['name'],
+                'email'       => $student['email'],
+                'role'        => $student['role'] ?? 'student',
+                'isLoggedIn'  => true
             ]);
+
             return redirect()->to('/');
-        } else {
-            return view('pages/auth/login', [
-                'error' => 'Invalid email or password.'
-            ]);
         }
+
+        log_message('warning', "Student password incorrect: {$email}");
     }
 
-    public function logout()
+    // Try company next
+    $companyModel = new \App\Models\CompanyModel();
+    $company = $companyModel->where('email', $email)->first();
+
+    if ($company) {
+        log_message('debug', "Company record found for: {$email}");
+
+        if (password_verify($password, $company['password'])) {
+            log_message('info', "Company login successful: {$email}");
+
+            $session->set([
+                'user_id'     => $company['id'],
+                'company_id'  => $company['id'], 
+                'name'        => $company['name'],
+                'email'       => $company['email'],
+                'role'        => $company['role'] ?? 'company',
+                'isLoggedIn'  => true
+            ]);
+
+            return redirect()->to('/company');
+        }
+
+        log_message('warning', "Company password incorrect: {$email}");
+    }
+
+    // Both login attempts failed
+    log_message('error', "Login failed for email: {$email}");
+
+    return redirect()->back()
+        ->withInput()
+        ->with('error', 'Invalid email or password');
+}
+
+//     public function loginSubmit()
+// {
+//     $session = session();
+//     $email = $this->request->getPost('email');
+//     $password = $this->request->getPost('password');
+
+//     log_message('info', "Login attempt for email: {$email}");
+
+//     // Try student first
+//     $studentModel = new StudentModel();
+//     $student = $studentModel->where('email', $email)->first();
+
+//     if ($student) {
+//         log_message('debug', "Student record found for: {$email}");
+
+//         if (password_verify($password, $student['password'])) {
+//             if (!$student['is_verified']) {
+//                 log_message('notice', "Unverified student attempted login: {$email}");
+
+//                 return redirect()->to('auth/verify-email')->with('error', 'Please verify your email before logging in.');
+//             }
+
+//             log_message('info', "Student login successful: {$email}");
+
+//             $session->set([
+//                 'student_id'  => $student['id'], 
+//                 'name'        => $student['name'],
+//                 'email'       => $student['email'],
+//                 'role'        => $student['role'] ?? 'student',
+//                 'isLoggedIn'  => true
+//             ]);
+
+//             return redirect()->to('/');
+//         }
+
+//         log_message('warning', "Student password incorrect: {$email}");
+//     }
+
+//     // Try company next
+//     $companyModel = new \App\Models\CompanyModel();
+//     $company = $companyModel->where('email', $email)->first();
+
+//     if ($company) {
+//         log_message('debug', "Company record found for: {$email}");
+
+//         if (password_verify($password, $company['password'])) {
+//             log_message('info', "Company login successful: {$email}");
+
+//             $session->set([
+//                 'user_id'     => $company['id'],
+//                 'company_id'  => $company['id'], 
+//                 'name'        => $company['name'],
+//                 'email'       => $company['email'],
+//                 'role'        => $company['role'] ?? 'company',
+//                 'isLoggedIn'  => true
+//             ]);
+
+//             return redirect()->to('/company');
+//         }
+
+//         log_message('warning', "Company password incorrect: {$email}");
+//     }
+
+//     // Both login attempts failed
+//     log_message('error', "Login failed for email: {$email}");
+
+//     return redirect()->back()
+//         ->withInput()
+//         ->with('error', 'Invalid email or password');
+// }
+
+public function verifyEmail()
+{
+    return view('pages/auth/verify_email');
+}
+
+public function resendVerification()
+{
+    $session = session();
+    $email = $session->get('email');
+
+    if (!$email) {
+        return redirect()->to('auth/login')->with('error', 'Session expired. Please log in again.');
+    }
+
+    $studentModel = new StudentModel();
+    $student = $studentModel->where('email', $email)->first();
+
+    if (!$student) {
+        return redirect()->to('auth/login')->with('error', 'Account not found.');
+    }
+
+    if ($student['is_verified']) {
+        return redirect()->to('/')->with('message', 'Your account is already verified.');
+    }
+
+    $token = bin2hex(random_bytes(32));
+    $studentModel->update($student['id'], ['verification_token' => $token]);
+
+    $this->sendVerificationEmail($email, $token);
+
+    return redirect()->back()->with('message', 'Verification email resent successfully.');
+}
+
+
+public function logout()
     {
         session()->destroy();
         return redirect()->to('/auth/login');
     }
-
 
 public function getProfile()
 {

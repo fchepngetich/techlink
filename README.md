@@ -1,68 +1,156 @@
-# CodeIgniter 4 Application Starter
 
-## What is CodeIgniter?
+# 🌐 TechLink Platform
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+TechLink is a web-based internship and job placement system for university students. It connects students with companies offering opportunities, facilitates applications, assessments, and enables real-time feedback and notifications. Built with **CodeIgniter 4**, **MySQL**, and enhanced with AI-driven aptitude tests.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+---
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## 🚀 Features
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+### 🎓 For Students
+- Register, login, and manage profile (skills, portfolio, GitHub, CV, etc.)
+- View and apply to opportunities from verified companies
+- Track application statuses and test performance
+- Take AI-generated aptitude or technical tests
+- Receive real-time notifications
 
-## Installation & updates
+### 🏢 For Companies *(to be implemented)*
+- Create opportunities
+- View applicants and assign tests
+- Review test results and shortlist candidates
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+---
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## 🛠️ Tech Stack
 
-## Setup
+| Layer              | Technology               |
+|-------------------|--------------------------|
+| Backend Framework | CodeIgniter 4 (PHP 8+)   |
+| Database          | MySQL                    |
+| Frontend          | Bootstrap 5              |
+| AI Integration    | OpenAI (optional helper) |
+| Testing           | PHPUnit 10               |
+| Deployment        | Azure (DevOps Pipelines) |
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+---
 
-## Important Change with index.php
+## 📦 Project Structure
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+```
+techlink/
+│
+├── app/                  → Main application logic (Controllers, Models, Views)
+├── public/               → Web root
+├── tests/                → PHPUnit test cases
+├── writable/             → Uploads & cache
+├── .env                  → Environment config (DB, keys)
+├── phpunit.xml.dist      → PHPUnit configuration
+├── composer.json         → Dependencies
+```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+---
 
-**Please** read the user guide for a better explanation of how CI4 works!
+## ⚙️ Setup Instructions
 
-## Repository Management
+### 1. Clone the Repository
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+```bash
+git clone https://dev.azure.com/your-org/techlink.git
+cd techlink
+```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### 2. Install Dependencies
 
-## Server Requirements
+```bash
+composer install
+```
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+### 3. Configure Environment
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+```bash
+cp env .env
+php spark key:generate
+```
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+Update `.env` with your **DB credentials**, **OpenAI key** (if applicable), and **baseURL**.
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+### 4. Create the Database
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Import the provided SQL file:
+
+```bash
+mysql -u root -p techlink < techlink.sql
+```
+
+Or use:
+
+```bash
+php spark migrate
+```
+
+### 5. Run Locally
+
+```bash
+php spark serve
+```
+
+Access via: [http://localhost:8080](http://localhost:8080)
+
+---
+
+## ✅ Running Tests
+
+```bash
+vendor/bin/phpunit
+```
+
+All tests are located in `/tests/Unit/`.
+
+---
+
+## 🧠 AI Test Generator (Optional)
+
+Enable OpenAI integration in `app/Helpers/OpenAiHelper.php`. Make sure your `.env` includes:
+
+```env
+OPENAI_API_KEY=your-key-here
+```
+
+---
+
+## 🧪 Sample Test Flow
+
+1. Student clicks "Take Test"
+2. AI generates questions
+3. Student submits answers
+4. Score calculated + stored
+5. Result shown (Pass/Fail)
+
+---
+
+## 📌 Deployment (Azure DevOps)
+
+- Repo is hosted in Azure DevOps
+- Pipeline uses a `yaml` file to build & deploy
+- Add missing PHP tasks (`UsePHPVersion`) via [Azure Marketplace](https://marketplace.visualstudio.com/)
+
+---
+
+## 🙋‍♂️ Contributors
+
+- **Faith Chepngetich** – Developer / Maintainer
+
+---
+
+## 📄 License
+
+This project is licensed under MIT. See [LICENSE](LICENSE) for details.
+
+---
+
+## 🔗 Links
+
+- [CodeIgniter Docs](https://codeigniter.com/user_guide/)
+- [Bootstrap](https://getbootstrap.com)
+- [PHPUnit](https://phpunit.de/)
+- [OpenAI](https://platform.openai.com/)

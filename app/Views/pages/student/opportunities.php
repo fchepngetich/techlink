@@ -59,10 +59,14 @@
                                         <i class="fas fa-check-circle"></i> Applied
                                     </button>
                                 <?php else: ?>
-                                    <a href="<?= base_url('student/opportunity/apply/' . $op['uuid']) ?>"
-                                        class="btn btn-primary btn-sm">
-                                        <i class="fas fa-paper-plane"></i> Apply Now
-                                    </a>
+                                    <button 
+    class="btn btn-primary btn-sm apply-btn"
+    data-url="<?= base_url('student/opportunity/apply/' . $op['uuid']) ?>"
+    data-company="<?= esc($op['company_name']) ?>"
+>
+    <i class="fas fa-paper-plane"></i> Apply Now
+</button>
+
                                 <?php endif; ?>
 
 
@@ -80,5 +84,38 @@
         <?php endif ?>
     </div>
 </div>
+
+<?= $this->section('scripts') ?>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const applyButtons = document.querySelectorAll('.apply-btn');
+
+        applyButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const url = this.getAttribute('data-url');
+                const company = this.getAttribute('data-company');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `By submitting you consent to sharing your data with ${company} company.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Apply',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    });
+</script>
+<?= $this->endSection() ?>
 
 <?= $this->endSection() ?>

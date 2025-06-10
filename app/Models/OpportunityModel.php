@@ -9,7 +9,7 @@ class OpportunityModel extends Model
     protected $table = 'opportunities';
     protected $primaryKey = 'id';
 
-    protected $allowedFields = ['company_id', 'title', 'type', 'description', 'location', 'deadline'];
+    protected $allowedFields = ['company_id', 'title', 'type', 'description', 'location', 'deadline','uuid','updated_at'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
@@ -18,6 +18,7 @@ class OpportunityModel extends Model
 {
     return $this->where('uuid', $uuid)->first();
 }
+
 
 public function getOpportunityTitle($id)
 {

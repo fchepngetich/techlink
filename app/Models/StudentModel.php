@@ -13,9 +13,19 @@ class StudentModel extends Model
     'name', 'university', 'phone', 'email', 'admission_no',
     'course', 'skills', 'cv_path', 'transcript_path',
     'github', 'portfolio',
-    'password', 'is_verified','verification_code', 'created_at'
+    'password', 'is_verified','verification_code', 'created_at','role'
 ];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
+
+    public function getUniversityById($studentId)
+{
+    $student = $this->select('university')
+                    ->where('id', $studentId)
+                    ->first();
+
+    return $student ? $student['university'] : null;
+}
+
 }
